@@ -9,5 +9,4 @@ public class UnamaProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UnamaProjectApplication.class, args);
 	}
-
 }
