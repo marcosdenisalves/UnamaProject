@@ -11,7 +11,7 @@ import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.services.UsuarioService;
 
 @RestController
-@RequestMapping(value = "/laboratorios")
+@RequestMapping(value = "/usuarios")
 public class UsuarioResource {
 
 	@Autowired

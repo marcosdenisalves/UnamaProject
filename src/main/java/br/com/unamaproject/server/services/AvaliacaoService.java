@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.unamaproject.server.domain.Avaliacao;
 import br.com.unamaproject.server.repositories.AvaliacaoRepository;
+import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class AvaliacaoService {
@@ -16,6 +17,7 @@ public class AvaliacaoService {
 	
 	public Avaliacao findById(Integer id) {
 		Optional<Avaliacao> obj = repository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				 "Objeto não encontrado! Id: " + id + ", Tipo: " + Avaliacao.class.getName()));
 	}
 } 
