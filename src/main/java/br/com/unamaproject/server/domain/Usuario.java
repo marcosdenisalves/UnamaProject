@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "usuario")
@@ -23,18 +26,19 @@ public class Usuario implements Serializable{
 	private String email;
 	private String senha;
 	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "usuario")
 	private List<Avaliacao> avaliacoes = new ArrayList<>();
 
 	public Usuario() {
 	}
 
-	public Usuario(Integer id, String nome, String sobrenome, String email, String senha, List<Avaliacao> avaliacoes) {
+	public Usuario(Integer id, String nome, String sobrenome, String email, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.email = email;
 		this.senha = senha;
-		this.avaliacoes = avaliacoes;
 	}
 
 	public Integer getId() {

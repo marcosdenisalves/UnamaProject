@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "avaliacao")
@@ -21,16 +25,20 @@ public class Avaliacao implements Serializable {
 	private String comentario;
 	private LocalDate dateComentario;
 
+	@ManyToOne
+	@JsonBackReference
+	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
 	public Avaliacao() {
 	}
 
-	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, LocalDate dateComentario) {
+	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, LocalDate dateComentario, Usuario usuario) {
 		this.id = id;
 		this.qtdEstrelas = qtdEstrelas;
 		this.comentario = comentario;
 		this.dateComentario = dateComentario;
+		this.usuario = usuario;
 	}
 
 	public Integer getId() {
