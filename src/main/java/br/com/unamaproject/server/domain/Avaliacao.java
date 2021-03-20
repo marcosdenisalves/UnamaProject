@@ -3,6 +3,7 @@ package br.com.unamaproject.server.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "avaliacao")
@@ -22,11 +23,13 @@ public class Avaliacao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer qtdEstrelas;
+	
+	@Column(columnDefinition = "text")
 	private String comentario;
-	private LocalDate dateComentario;
+	private LocalDate dataComentario;
 
 	@ManyToOne
-	@JsonBackReference
+	@JsonIgnore
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
@@ -37,7 +40,7 @@ public class Avaliacao implements Serializable {
 		this.id = id;
 		this.qtdEstrelas = qtdEstrelas;
 		this.comentario = comentario;
-		this.dateComentario = dateComentario;
+		this.dataComentario = dateComentario;
 		this.usuario = usuario;
 	}
 
@@ -65,12 +68,12 @@ public class Avaliacao implements Serializable {
 		this.comentario = comentario;
 	}
 
-	public LocalDate getDateComentario() {
-		return dateComentario;
+	public LocalDate getDataComentario() {
+		return dataComentario;
 	}
 
-	public void setDateComentario(LocalDate dateComentario) {
-		this.dateComentario = dateComentario;
+	public void setDataComentario(LocalDate dataComentario) {
+		this.dataComentario = dataComentario;
 	}
 
 	public Usuario getUsuario() {
