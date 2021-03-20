@@ -25,4 +25,9 @@ public class UsuarioService {
 		usuario.setId(null);
 		return repository.save(usuario);
 	}
+
+	public Usuario update(Usuario obj) {
+		findById(obj.getId());
+		return repository.save(obj);
+	}
 } 
