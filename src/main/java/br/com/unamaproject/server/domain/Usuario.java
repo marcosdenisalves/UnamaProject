@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "usuario")
@@ -21,6 +22,8 @@ public class Usuario implements Serializable{
 	private Integer id;
 	private String nome;
 	private String sobrenome;
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String email;
 	private String senha;
 	
