@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,6 +25,10 @@ public class Avaliacao implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@NotNull
+	@Min(value = 1, message = "Valor minimo é de 1 estrela")
+	@Max(value = 5, message = "Valor maximo é de 5 estrelas")
 	private Integer qtdEstrelas;
 	
 	@Column(columnDefinition = "text")
@@ -43,7 +50,7 @@ public class Avaliacao implements Serializable {
 		this.dataComentario = dateComentario;
 		this.usuario = usuario;
 	}
-
+	MethodArgumentNotValidException
 	public Integer getId() {
 		return id;
 	}
