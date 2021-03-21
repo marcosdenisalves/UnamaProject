@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.unamaproject.server.domain.Avaliacao;
 import br.com.unamaproject.server.repositories.AvaliacaoRepository;
-import br.com.unamaproject.server.service.exceptions.DataIntegrityException;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
 
 @Service
@@ -38,13 +37,7 @@ public class AvaliacaoService {
 
 	public void delete(Integer id) {
 		findById(id);
-		try {
-			repository.deleteById(id);
-		}catch (DataIntegrityException e) {
-			throw new DataIntegrityException
-				("Não foi possivel remover a " + Avaliacao.class + 
-						", a entidade contem usuários atrelados a ela.");
-		}
+		repository.deleteById(id);
 	}
 
 	public List<Avaliacao> findAll() {
