@@ -1,5 +1,6 @@
 package br.com.unamaproject.server.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,9 @@ public class UsuarioService {
 			}
 
 		usuarioRepository.deleteById(id);
+	}
+
+	public List<Usuario> findAll() {
+		return usuarioRepository.findAll();
 	}
 } 
