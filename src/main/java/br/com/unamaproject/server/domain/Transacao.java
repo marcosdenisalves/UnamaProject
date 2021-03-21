@@ -25,7 +25,6 @@ public class Transacao implements Serializable{
 	}
 	
 	public Transacao(Integer id, String title, Double value, LocalDate date) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.value = value;
