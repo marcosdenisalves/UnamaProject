@@ -33,7 +33,7 @@ public class Avaliacao implements Serializable {
 	
 	@Column(columnDefinition = "text")
 	private String comentario;
-	private LocalDate dataComentario;
+	private LocalDate dataAvaliacao;
 
 	@ManyToOne
 	@JsonIgnore
@@ -43,11 +43,11 @@ public class Avaliacao implements Serializable {
 	public Avaliacao() {
 	}
 
-	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, LocalDate dateComentario, Usuario usuario) {
+	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, LocalDate dataAvaliacao, Usuario usuario) {
 		this.id = id;
 		this.qtdEstrelas = qtdEstrelas;
 		this.comentario = comentario;
-		this.dataComentario = dateComentario;
+		this.dataAvaliacao = dataAvaliacao;
 		this.usuario = usuario;
 	}
 
@@ -75,12 +75,12 @@ public class Avaliacao implements Serializable {
 		this.comentario = comentario;
 	}
 
-	public LocalDate getDataComentario() {
-		return dataComentario;
+	public LocalDate getDataAvaliacao() {
+		return dataAvaliacao;
 	}
 
-	public void setDataComentario(LocalDate dataComentario) {
-		this.dataComentario = dataComentario;
+	public void setDataAvaliacao(LocalDate dataAvaliacao) {
+		this.dataAvaliacao = dataAvaliacao;
 	}
 
 	public Usuario getUsuario() {
