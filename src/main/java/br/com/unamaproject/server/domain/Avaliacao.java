@@ -50,7 +50,7 @@ public class Avaliacao implements Serializable {
 		this.dataComentario = dateComentario;
 		this.usuario = usuario;
 	}
-	MethodArgumentNotValidException
+
 	public Integer getId() {
 		return id;
 	}
