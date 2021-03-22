@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.unamaproject.server.domain.Avaliacao;
 import br.com.unamaproject.server.repositories.AvaliacaoRepository;
@@ -25,6 +26,7 @@ public class AvaliacaoService {
 				 "Objeto não encontrado! Id: " + id + ", Tipo: " + Avaliacao.class.getName()));
 	}
 
+	@Transactional
 	public Avaliacao insert(Avaliacao obj) {
 		obj.setId(null);
 		return repository.save(obj);
