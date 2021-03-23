@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.unamaproject.server.domain.Usuario;
+import br.com.unamaproject.server.dto.UsuarioDTO;
+import br.com.unamaproject.server.dto.UsuarioNewDTO;
 import br.com.unamaproject.server.repositories.UsuarioRepository;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
 
@@ -49,5 +51,13 @@ public class UsuarioService {
 	public Page<Usuario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage,Direction.valueOf(direction), orderBy);
 		return usuarioRepository.findAll(pageRequest);
+	}
+	
+	public Usuario fromDTO(UsuarioDTO objDto) {
+		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getSobrenome(), objDto.getEmail());
+	}
+	
+	public Usuario fromNewDTO(UsuarioNewDTO objDto) {
+		return new Usuario(null, objDto.getNome(), objDto.getSobrenome(), objDto.getEmail());
 	}
 } 

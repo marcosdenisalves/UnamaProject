@@ -26,7 +26,7 @@ public class UnamaProjectApplication implements CommandLineRunner{
 
 	@Autowired
 	private LaboratorioRepository laboratorioRepository;
-	
+		
 	@Autowired
 	private AvaliacaoRepository avaliacaoRepository;
 	
@@ -51,12 +51,12 @@ public class UnamaProjectApplication implements CommandLineRunner{
 		Laboratorio lab2 = new Laboratorio(null, "Química", "Laborátorio de Química da Unama");
 		Laboratorio lab3 = new Laboratorio(null, "Gastronomia", "Laborátorio de Gastronomia da Unama");
 
-		Usuario user1 = new Usuario(null, "Daywison", "da Silva de Souza", "daywison.silva@gmail.com", "1234");
-		Usuario user2 = new Usuario(null, "Paulo Roberto", "de Souza Soares", "pauloroberto.souza@yahoo.com.br", "12345");
-		Usuario user3 = new Usuario(null, "Thiago", "de Oliveira Gomes", "thiagodeoliveira@hotmail.com", "2222");
-		Usuario user4 = new Usuario(null, "Marcos Dênis", "Alves Lucio Junior", "marcos.denis@hotmail.com", "33333");
-		Usuario user5 = new Usuario(null, "Carlos André", "Pereira Alves", "carlos.alves@hotmail.com", "44444");
-		Usuario user6 = new Usuario(null, "Fulano", "Sicrano de tal", "fulano.sicrano@yahoo.com.br", "55555");
+		Usuario user1 = new Usuario(null, "Daywison", "da Silva de Souza", "daywison.silva@gmail.com");
+		Usuario user2 = new Usuario(null, "Paulo Roberto", "de Souza Soares", "pauloroberto.souza@yahoo.com.br");
+		Usuario user3 = new Usuario(null, "Thiago", "de Oliveira Gomes", "thiagodeoliveira@hotmail.com");
+		Usuario user4 = new Usuario(null, "Marcos Dênis", "Alves Lucio Junior", "marcos.denis@hotmail.com");
+		Usuario user5 = new Usuario(null, "Carlos André", "Pereira Alves", "carlos.alves@hotmail.com");
+		Usuario user6 = new Usuario(null, "Fulano", "Sicrano de tal", "fulano.sicrano@yahoo.com.br");
 		
 		Avaliacao av1 = new Avaliacao(null, 2, "Não gostei do conteudo", LocalDate.parse("13/11/2019", formatter), user1);
 		Avaliacao av2 = new Avaliacao(null, 5, "Excelente projeto", LocalDate.parse("15/09/2020", formatter), user1);
