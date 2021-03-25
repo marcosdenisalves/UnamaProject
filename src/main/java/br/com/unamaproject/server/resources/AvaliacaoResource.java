@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.unamaproject.server.domain.Avaliacao;
+import br.com.unamaproject.server.dto.AvaliacaoDTO;
+import br.com.unamaproject.server.dto.AvaliacaoNewDTO;
 import br.com.unamaproject.server.services.AvaliacaoService;
 
 @RestController
@@ -33,8 +35,8 @@ public class AvaliacaoResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody Avaliacao obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@Valid @RequestBody AvaliacaoNewDTO objDto) {
+		Avaliacao obj = service.insert(objDto);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
@@ -42,7 +44,8 @@ public class AvaliacaoResource {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody Avaliacao obj, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody AvaliacaoDTO objDto, @PathVariable Integer id) {
+		Avaliacao obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();

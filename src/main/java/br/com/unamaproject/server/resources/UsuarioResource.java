@@ -36,7 +36,7 @@ public class UsuarioResource {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioNewDTO objDto) {
-		Usuario obj = service.fromNewDTO(objDto);
+		Usuario obj = service.insert(objDto);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();

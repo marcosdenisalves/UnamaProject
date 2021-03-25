@@ -1,8 +1,9 @@
 package br.com.unamaproject.server.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -25,25 +24,23 @@ public class Avaliacao implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@NotNull
-	@Min(value = 1, message = "Valor minimo é de 1 estrela")
-	@Max(value = 5, message = "Valor maximo é de 5 estrelas")
 	private Integer qtdEstrelas;
 	
 	@Column(columnDefinition = "text")
 	private String comentario;
-	private LocalDate dataAvaliacao;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone = "America/Sao_Paulo")
+	private Date dataAvaliacao;
 
-	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name = "usuario_id")
+	@ManyToOne (cascade = CascadeType.ALL)
 	private Usuario usuario;
 
 	public Avaliacao() {
 	}
 
-	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, LocalDate dataAvaliacao, Usuario usuario) {
+	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, Date dataAvaliacao, Usuario usuario) {
 		this.id = id;
 		this.qtdEstrelas = qtdEstrelas;
 		this.comentario = comentario;
@@ -75,11 +72,11 @@ public class Avaliacao implements Serializable {
 		this.comentario = comentario;
 	}
 
-	public LocalDate getDataAvaliacao() {
+	public Date getDataAvaliacao() {
 		return dataAvaliacao;
 	}
 
-	public void setDataAvaliacao(LocalDate dataAvaliacao) {
+	public void setDataAvaliacao(Date dataAvaliacao) {
 		this.dataAvaliacao = dataAvaliacao;
 	}
 

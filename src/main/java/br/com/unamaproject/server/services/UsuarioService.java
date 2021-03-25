@@ -29,9 +29,9 @@ public class UsuarioService {
 	}
 
 	@Transactional
-	public Usuario insert(Usuario usuario) {
-		usuario.setId(null);
-		return usuarioRepository.save(usuario);
+	public Usuario insert(UsuarioNewDTO objDto) {
+		Usuario obj = fromNewDTO(objDto);
+		return usuarioRepository.save(obj);
 	}
 
 	public Usuario update(Usuario obj) {
