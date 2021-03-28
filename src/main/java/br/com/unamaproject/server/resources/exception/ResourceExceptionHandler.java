@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.unamaproject.server.service.exceptions.DataIntegrityException;
+import br.com.unamaproject.server.service.exceptions.InvalidFormatException;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
@@ -26,6 +27,14 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(DataIntegrityException.class)
 	public ResponseEntity<StandardError> dataIntegrity(
 			DataIntegrityException e, HttpServletRequest request) {
+		
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+
+	@ExceptionHandler(InvalidFormatException.class)
+	public ResponseEntity<StandardError> invalidFormat(
+			InvalidFormatException e, HttpServletRequest request) {
 		
 		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
