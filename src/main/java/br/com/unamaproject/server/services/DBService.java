@@ -37,7 +37,7 @@ public class DBService {
 		Transacao tr1 = new Transacao(null, "Conta de Luz", 257.0, sdf.parse("25/03/2021"));
 		Transacao tr2 = new Transacao(null, "Conta de Água", 455.0, sdf.parse("21/03/2021"));
 		Transacao tr3 = new Transacao(null, "Alimentação", 240.0, sdf.parse("23/03/2021"));
-		Transacao tr4 = new Transacao(null, "Rupas", 150.0, sdf.parse("24/03/2021"));
+		Transacao tr4 = new Transacao(null, "Roupas", 150.0, sdf.parse("24/03/2021"));
 		Transacao tr5 = new Transacao(null, "Peças e Acessórios", 600.0, sdf.parse("23/03/2021"));
 		
 		Laboratorio lab1 = new Laboratorio(null, "Informática", "Laborátorio de Informática da Unama");
