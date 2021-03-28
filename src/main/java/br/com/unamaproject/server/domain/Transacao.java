@@ -1,13 +1,15 @@
 package br.com.unamaproject.server.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "transacao")
@@ -19,12 +21,14 @@ public class Transacao implements Serializable{
 	private Integer id;
 	private String title;
 	private Double value;
-	private LocalDate date;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+	private Date date;
 
 	public Transacao() {
 	}
 	
-	public Transacao(Integer id, String title, Double value, LocalDate date) {
+	public Transacao(Integer id, String title, Double value, Date date) {
 		this.id = id;
 		this.title = title;
 		this.value = value;
@@ -55,11 +59,11 @@ public class Transacao implements Serializable{
 		this.value = value;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
