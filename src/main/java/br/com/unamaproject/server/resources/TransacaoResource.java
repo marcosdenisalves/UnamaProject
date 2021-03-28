@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.unamaproject.server.domain.Transacao;
+import br.com.unamaproject.server.dto.TransacaoNewDTO;
 import br.com.unamaproject.server.services.TransacaoService;
 
 @RestController
@@ -31,8 +32,8 @@ public class TransacaoResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody Transacao obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@RequestBody TransacaoNewDTO objDto) {
+		Transacao obj = service.insert(objDto);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
