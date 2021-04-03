@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.unamaproject.server.domain.Avaliacao;
@@ -31,6 +32,9 @@ public class DBService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+
 	public void instantiateTestDatabase() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -44,12 +48,12 @@ public class DBService {
 		Laboratorio lab2 = new Laboratorio(null, "Química", "Laborátorio de Química da Unama");
 		Laboratorio lab3 = new Laboratorio(null, "Gastronomia", "Laborátorio de Gastronomia da Unama");
 
-		Usuario user1 = new Usuario(null, "Daywison", "da Silva de Souza", "daywison.silva@gmail.com");
-		Usuario user2 = new Usuario(null, "Paulo Roberto", "de Souza Soares", "pauloroberto.souza@yahoo.com.br");
-		Usuario user3 = new Usuario(null, "Thiago", "de Oliveira Gomes", "thiagodeoliveira@hotmail.com");
-		Usuario user4 = new Usuario(null, "Marcos Dênis", "Alves Lucio Junior", "marcos.denis@hotmail.com");
-		Usuario user5 = new Usuario(null, "Carlos André", "Pereira Alves", "carlos.alves@hotmail.com");
-		Usuario user6 = new Usuario(null, "Fulano", "Sicrano de tal", "fulano.sicrano@yahoo.com.br");
+		Usuario user1 = new Usuario(null, "Daywison", "da Silva de Souza", "daywison.silva@gmail.com", encoder.encode("1234"));
+		Usuario user2 = new Usuario(null, "Paulo Roberto", "de Souza Soares", "pauloroberto.souza@yahoo.com.br", encoder.encode("4444"));
+		Usuario user3 = new Usuario(null, "Thiago", "de Oliveira Gomes", "thiagodeoliveira@hotmail.com", encoder.encode("2222"));
+		Usuario user4 = new Usuario(null, "Marcos Dênis", "Alves Lucio Junior", "marcos.denis@hotmail.com", encoder.encode("4321"));
+		Usuario user5 = new Usuario(null, "Carlos André", "Pereira Alves", "carlos.alves@hotmail.com", encoder.encode("55555"));
+		Usuario user6 = new Usuario(null, "Fulano", "Sicrano de tal", "fulano.sicrano@yahoo.com.br", encoder.encode("3333"));
 		
 		Avaliacao av1 = new Avaliacao(null, 2, "Não gostei do conteudo", sdf.parse("13/11/2019"), user1);
 		Avaliacao av2 = new Avaliacao(null, 5, "Excelente projeto", sdf.parse("15/09/2020"), user1);
