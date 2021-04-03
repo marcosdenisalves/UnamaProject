@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable{
@@ -24,17 +26,21 @@ public class Usuario implements Serializable{
 	private String sobrenome;
 	private String email;
 	
+	@JsonIgnore
+	private String senha;
+	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Avaliacao> avaliacoes = new ArrayList<>();
 
 	public Usuario() {
 	}
 
-	public Usuario(Integer id, String nome, String sobrenome, String email) {
+	public Usuario(Integer id, String nome, String sobrenome, String email, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.email = email;
+		this.senha = senha;
 	}
 
 	public Integer getId() {
@@ -67,6 +73,14 @@ public class Usuario implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public List<Avaliacao> getAvaliacoes() {
