@@ -2,10 +2,16 @@ package br.com.unamaproject.server.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.unamaproject.server.enums.PerfilAcesso;
 
 @Entity
 @Table(name = "usuario")
@@ -32,7 +40,12 @@ public class Usuario implements Serializable{
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Avaliacao> avaliacoes = new ArrayList<>();
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+	
 	public Usuario() {
+		addPerfil(PerfilAcesso.USUARIO);
 	}
 
 	public Usuario(Integer id, String nome, String sobrenome, String email, String senha) {
@@ -89,6 +102,15 @@ public class Usuario implements Serializable{
 
 	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 		this.avaliacoes = avaliacoes;
+	}
+	
+	public Set<PerfilAcesso> getPerfis() {
+		return perfis.stream().map(x -> 
+			PerfilAcesso.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	public void addPerfil(PerfilAcesso perfil) {
+		perfis.add(perfil.getCod());
 	}
 
 	@Override
