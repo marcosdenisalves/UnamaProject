@@ -14,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.dto.UsuarioDTO;
 import br.com.unamaproject.server.dto.UsuarioNewDTO;
+import br.com.unamaproject.server.enums.PerfilAcesso;
 import br.com.unamaproject.server.repositories.UsuarioRepository;
+import br.com.unamaproject.server.resources.UserService;
+import br.com.unamaproject.server.security.UserSS;
+import br.com.unamaproject.server.service.exceptions.AuthorizationException;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
 
 @Service
@@ -26,7 +30,13 @@ public class UsuarioService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
+	
 	public Usuario findById(Integer id) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(PerfilAcesso.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
 		Optional<Usuario> obj = usuarioRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				 "Objeto não encontrado! Id: " + id + ", Tipo: " + Usuario.class.getName()));
@@ -49,7 +59,11 @@ public class UsuarioService {
 	}
 
 	public List<Usuario> findAll() {
-		return usuarioRepository.findAll();
+		try {
+			return usuarioRepository.findAll();
+		} catch (AuthorizationException e) {
+			throw new AuthorizationException("Acesso negaco");
+		}
 	}
 	
 	public Page<Usuario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
