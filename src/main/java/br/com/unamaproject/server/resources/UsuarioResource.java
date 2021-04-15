@@ -59,7 +59,6 @@ public class UsuarioResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Usuario>> findAll() {
 		List<Usuario> list = service.findAll();

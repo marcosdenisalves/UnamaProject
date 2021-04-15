@@ -10,20 +10,15 @@ import org.springframework.stereotype.Service;
 
 import br.com.unamaproject.server.domain.Avaliacao;
 import br.com.unamaproject.server.domain.Laboratorio;
-import br.com.unamaproject.server.domain.Transacao;
 import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.enums.PerfilAcesso;
 import br.com.unamaproject.server.repositories.AvaliacaoRepository;
 import br.com.unamaproject.server.repositories.LaboratorioRepository;
-import br.com.unamaproject.server.repositories.TransacaoRepository;
 import br.com.unamaproject.server.repositories.UsuarioRepository;
 
 @Service
 public class DBService {
 	
-	@Autowired
-	private TransacaoRepository transacaoRepository;
-
 	@Autowired
 	private LaboratorioRepository laboratorioRepository;
 		
@@ -38,12 +33,6 @@ public class DBService {
 
 	public void instantiateTestDatabase() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
-		Transacao tr1 = new Transacao(null, "Conta de Luz", 257.0, sdf.parse("25/03/2021"));
-		Transacao tr2 = new Transacao(null, "Conta de Água", 455.0, sdf.parse("21/03/2021"));
-		Transacao tr3 = new Transacao(null, "Alimentação", 240.0, sdf.parse("23/03/2021"));
-		Transacao tr4 = new Transacao(null, "Roupas", 150.0, sdf.parse("24/03/2021"));
-		Transacao tr5 = new Transacao(null, "Peças e Acessórios", 600.0, sdf.parse("23/03/2021"));
 		
 		Laboratorio lab1 = new Laboratorio(null, "Informática", "Laborátorio de Informática da Unama");
 		Laboratorio lab2 = new Laboratorio(null, "Química", "Laborátorio de Química da Unama");
@@ -76,7 +65,6 @@ public class DBService {
 		user2.getAvaliacoes().addAll(Arrays.asList(av4, av5, av6));
 		user3.getAvaliacoes().addAll(Arrays.asList(av7, av8, av9));
 		
-		transacaoRepository.saveAll(Arrays.asList(tr1, tr2, tr3, tr4, tr5));
 		laboratorioRepository.saveAll(Arrays.asList(lab1, lab2, lab3));
 		usuarioRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5, user6, adm));
 		avaliacaoRepository.saveAll(Arrays.asList(av1, av2, av3, av4, av5, av6, av7, av8, av9));

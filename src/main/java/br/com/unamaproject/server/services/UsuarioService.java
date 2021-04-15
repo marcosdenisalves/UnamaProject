@@ -1,5 +1,6 @@
 package br.com.unamaproject.server.services;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,9 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
 	
@@ -45,6 +49,7 @@ public class UsuarioService {
 	@Transactional
 	public Usuario insert(UsuarioNewDTO objDto) {
 		Usuario obj = fromNewDTO(objDto);
+		emailService.sendRegisterConfirmationEmail(obj);
 		return usuarioRepository.save(obj);
 	}
 
@@ -59,11 +64,11 @@ public class UsuarioService {
 	}
 
 	public List<Usuario> findAll() {
-		try {
+		Usuario user = findById(UserService.authenticated().getId());
+		if (UserService.authenticated().hasRole(PerfilAcesso.ADMIN))
 			return usuarioRepository.findAll();
-		} catch (AuthorizationException e) {
-			throw new AuthorizationException("Acesso negaco");
-		}
+		
+		return Arrays.asList(user);
 	}
 	
 	public Page<Usuario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {

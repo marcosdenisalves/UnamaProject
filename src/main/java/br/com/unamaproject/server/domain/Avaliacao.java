@@ -29,7 +29,7 @@ public class Avaliacao implements Serializable {
 	@Column(columnDefinition = "text")
 	private String comentario;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone = "America/Sao_Paulo")
+	@JsonFormat(pattern = "yyyy.MM.dd.HH.mm.ss", timezone = "America/Sao_Paulo")
 	private Date dataAvaliacao;
 
 	@JsonIgnore

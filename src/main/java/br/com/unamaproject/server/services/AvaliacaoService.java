@@ -16,6 +16,8 @@ import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.dto.AvaliacaoDTO;
 import br.com.unamaproject.server.dto.AvaliacaoNewDTO;
 import br.com.unamaproject.server.repositories.AvaliacaoRepository;
+import br.com.unamaproject.server.resources.UserService;
+import br.com.unamaproject.server.security.UserSS;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
 
 @Service
@@ -24,11 +26,15 @@ public class AvaliacaoService {
 	@Autowired
 	private AvaliacaoRepository repository;
 	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	public Avaliacao findById(Integer id) {
 		Optional<Avaliacao> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				 "Objeto não encontrado! Id: " + id + ", Tipo: " + Avaliacao.class.getName()));
 	}
+
 
 	@Transactional
 	public Avaliacao insert(AvaliacaoNewDTO objDto) {
@@ -37,11 +43,13 @@ public class AvaliacaoService {
 	}
 
 	public Avaliacao update(Avaliacao obj) {
+		validaUsuarioLogado();
 		findById(obj.getId());
 		return repository.save(obj);
 	}
 
 	public void delete(Integer id) {
+		validaUsuarioLogado();
 		findById(id);
 		repository.deleteById(id);
 	}
@@ -56,11 +64,17 @@ public class AvaliacaoService {
 	}
 
 	public Avaliacao fromNewDTO(AvaliacaoNewDTO objDto) {
-		//Falta trazer o usuário da sessão
-		return new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), new Date(), new Usuario());
+		Usuario usuario = validaUsuarioLogado();
+		return new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), new Date(), usuario);
+	}
+
+	public Avaliacao fromDTO(AvaliacaoDTO objDto) {
+		Usuario usuario = validaUsuarioLogado();
+		return new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(), new Date(), usuario);
 	}
 	
-	public Avaliacao fromDTO(AvaliacaoDTO objDto) {
-		return new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(), new Date(), new Usuario());
+	private Usuario validaUsuarioLogado() {
+		UserSS user = UserService.authenticated();
+		return usuarioService.findById(user.getId());
 	}
 } 

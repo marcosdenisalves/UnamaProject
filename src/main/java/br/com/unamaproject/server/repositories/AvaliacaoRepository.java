@@ -7,5 +7,5 @@ import br.com.unamaproject.server.domain.Avaliacao;
 
 @Repository
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
-	
+
 }
