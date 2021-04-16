@@ -52,7 +52,7 @@ public class UsuarioService {
 		emailService.sendRegisterConfirmationEmail(obj);
 		return usuarioRepository.save(obj);
 	}
-
+	
 	public Usuario update(Usuario obj) {
 		findById(obj.getId());
 		return usuarioRepository.save(obj);

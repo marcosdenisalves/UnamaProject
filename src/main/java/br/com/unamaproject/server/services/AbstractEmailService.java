@@ -34,6 +34,9 @@ public abstract class AbstractEmailService implements EmailService {
 		sb.append(obj.getNome());
 		sb.append(", ");
 		sb.append("seu cadastro foi efetuado com sucesso!");
+		sb.append(" ");
+		sb.append("Clique no link abaixo para efetuar o seu login. ");
+		sb.append("https://unamavr.netlify.app/#/login");
 		return sb.toString();
 	}
 }
