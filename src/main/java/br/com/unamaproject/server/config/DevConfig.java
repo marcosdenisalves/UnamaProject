@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import br.com.unamaproject.server.services.DBService;
-import br.com.unamaproject.server.services.EmailService;
-import br.com.unamaproject.server.services.SmtpEmailService;
+import br.com.unamaproject.server.service.DBService;
+import br.com.unamaproject.server.service.EmailService;
+import br.com.unamaproject.server.service.SmtpEmailService;
 
 @Configuration
 @Profile("dev")

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.unamaproject.server.domain.Laboratorio;
-import br.com.unamaproject.server.services.LaboratorioService;
+import br.com.unamaproject.server.service.LaboratorioService;
 
 @RestController
 @RequestMapping(value = "/laboratorios")

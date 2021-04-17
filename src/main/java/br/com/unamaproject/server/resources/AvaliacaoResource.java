@@ -19,7 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.unamaproject.server.domain.Avaliacao;
 import br.com.unamaproject.server.dto.AvaliacaoDTO;
 import br.com.unamaproject.server.dto.AvaliacaoNewDTO;
-import br.com.unamaproject.server.services.AvaliacaoService;
+import br.com.unamaproject.server.service.AvaliacaoService;
 
 @RestController
 @RequestMapping(value = "/avaliacoes")

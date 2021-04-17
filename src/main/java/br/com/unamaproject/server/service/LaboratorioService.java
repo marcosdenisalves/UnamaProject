@@ -1,4 +1,4 @@
-package br.com.unamaproject.server.services;
+package br.com.unamaproject.server.service;
 
 import java.util.List;
 import java.util.Optional;

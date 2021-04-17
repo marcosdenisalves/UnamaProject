@@ -1,4 +1,4 @@
-package br.com.unamaproject.server.services;
+package br.com.unamaproject.server.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -20,7 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.dto.UsuarioDTO;
 import br.com.unamaproject.server.dto.UsuarioNewDTO;
-import br.com.unamaproject.server.services.UsuarioService;
+import br.com.unamaproject.server.service.UsuarioService;
 
 @RestController
 @RequestMapping(value = "/usuarios")

@@ -1,4 +1,4 @@
-package br.com.unamaproject.server.services;
+package br.com.unamaproject.server.service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +49,7 @@ public class UsuarioService {
 	@Transactional
 	public Usuario insert(UsuarioNewDTO objDto) {
 		Usuario obj = fromNewDTO(objDto);
-		emailService.sendRegisterConfirmationEmail(obj);
+		emailService.sendRegisterConfirmationHtmlEmail(obj);
 		return usuarioRepository.save(obj);
 	}
 	
