@@ -34,6 +34,12 @@ public class UsuarioResource {
 		Usuario obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	@RequestMapping(value="/email", method = RequestMethod.GET)
+	public ResponseEntity<Usuario> findByEmail(@RequestParam(value = "value") String email) {
+		Usuario obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioNewDTO objDto) {
