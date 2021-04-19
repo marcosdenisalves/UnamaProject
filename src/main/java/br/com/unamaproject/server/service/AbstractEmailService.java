@@ -28,7 +28,7 @@ public abstract class AbstractEmailService implements EmailService {
 	
 	@Override
 	public void sendRegisterConfirmationEmail(Usuario obj) {
-		SimpleMailMessage sm = prepareSimpleMailMessageFromPedido(obj);
+		SimpleMailMessage sm = prepareSimpleMailMessageFromUsuario(obj);
 		sendEmail(sm);
 	}
 	
@@ -55,7 +55,7 @@ public abstract class AbstractEmailService implements EmailService {
 		return mimeMessage;
 	}
 
-	protected SimpleMailMessage prepareSimpleMailMessageFromPedido(Usuario obj) {
+	protected SimpleMailMessage prepareSimpleMailMessageFromUsuario(Usuario obj) {
 		SimpleMailMessage sm = new SimpleMailMessage();
 		sm.setTo(obj.getEmail());
 		sm.setFrom(sender);
@@ -81,5 +81,21 @@ public abstract class AbstractEmailService implements EmailService {
 		Context context = new Context();
 		context.setVariable("usuario", usuario);
 		return templateEngine.process("email/confirmacaoCadastro", context);
+	}
+	
+	@Override
+	public void sendNewPasswordEmail(Usuario usuario, String newPasss) {
+		SimpleMailMessage sm = prepareNewPasswordEmail(usuario, newPasss);
+		sendEmail(sm);
+	}
+
+	protected SimpleMailMessage prepareNewPasswordEmail(Usuario usuario, String newPasss) {
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(usuario.getEmail());
+		sm.setFrom(sender);
+		sm.setSubject("Solicitação de nova senha!");
+		sm.setSentDate(new Date(System.currentTimeMillis()));
+		sm.setText("Nova senha: " + newPasss);
+		return sm;
 	}
 }

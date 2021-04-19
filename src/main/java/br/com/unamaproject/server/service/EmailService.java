@@ -15,4 +15,6 @@ public interface EmailService {
 	void sendRegisterConfirmationHtmlEmail(Usuario usuario);
 	
 	void sendHtmlEmail(MimeMessage msg);
+	
+	void sendNewPasswordEmail(Usuario usuario, String newPasss);
 }
