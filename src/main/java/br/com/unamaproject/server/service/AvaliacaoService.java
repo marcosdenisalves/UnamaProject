@@ -16,7 +16,6 @@ import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.dto.AvaliacaoDTO;
 import br.com.unamaproject.server.dto.AvaliacaoNewDTO;
 import br.com.unamaproject.server.repositories.AvaliacaoRepository;
-import br.com.unamaproject.server.resources.UserService;
 import br.com.unamaproject.server.security.UserSS;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
 

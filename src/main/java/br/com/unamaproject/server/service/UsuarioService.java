@@ -17,7 +17,6 @@ import br.com.unamaproject.server.dto.UsuarioDTO;
 import br.com.unamaproject.server.dto.UsuarioNewDTO;
 import br.com.unamaproject.server.enums.PerfilAcesso;
 import br.com.unamaproject.server.repositories.UsuarioRepository;
-import br.com.unamaproject.server.resources.UserService;
 import br.com.unamaproject.server.security.UserSS;
 import br.com.unamaproject.server.service.exceptions.AuthorizationException;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
