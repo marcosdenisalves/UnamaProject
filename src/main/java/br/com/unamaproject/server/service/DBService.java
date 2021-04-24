@@ -1,7 +1,8 @@
 package br.com.unamaproject.server.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class DBService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
-	public void instantiateTestDatabase() throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	public void instantiateTestDatabase() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
 		Laboratorio lab1 = new Laboratorio(null, "Informática", "Laborátorio de Informática da Unama");
 		Laboratorio lab2 = new Laboratorio(null, "Química", "Laborátorio de Química da Unama");
@@ -46,17 +47,17 @@ public class DBService {
 		Usuario user6 = new Usuario(null, "Fulano", "Sicrano de tal", "fulano.sicrano@yahoo.com.br", encoder.encode("3333"));
 		Usuario adm = new Usuario(null, "Administrador", "Adm", "administrador@adm.com", encoder.encode("adm"));
 		
-		Avaliacao av1 = new Avaliacao(null, 2, "Não gostei do conteudo", sdf.parse("13/11/2019"), user1);
-		Avaliacao av2 = new Avaliacao(null, 5, "Excelente projeto", sdf.parse("15/09/2020"), user1);
-		Avaliacao av3 = new Avaliacao(null, 3, "Acredito que o conteúdo aprensentado poderia ser melhor", sdf.parse("08/02/2021"), user1);
+		Avaliacao av1 = new Avaliacao(null, 2, "Não gostei do conteudo", LocalDate.parse("13/11/2019", formatter).atStartOfDay(), user1);
+		Avaliacao av2 = new Avaliacao(null, 5, "Excelente projeto", LocalDate.parse("15/09/2020", formatter).atStartOfDay(), user1);
+		Avaliacao av3 = new Avaliacao(null, 3, "Acredito que o conteúdo aprensentado poderia ser melhor", LocalDate.parse("08/02/2021",formatter).atStartOfDay(), user1);
 		
-		Avaliacao av4 = new Avaliacao(null, 5, "Excelente conteudo", sdf.parse("01/05/2015"), user2);
-		Avaliacao av5 = new Avaliacao(null, 4, "Otimo trabalho galera", sdf.parse("02/07/2016"), user2);
-		Avaliacao av6 = new Avaliacao(null, 3, "Precisa melhorar", sdf.parse("13/12/2021"), user2);
+		Avaliacao av4 = new Avaliacao(null, 5, "Excelente conteudo", LocalDate.parse("01/05/2015", formatter).atStartOfDay(), user2);
+		Avaliacao av5 = new Avaliacao(null, 4, "Otimo trabalho galera", LocalDate.parse("02/07/2016", formatter).atStartOfDay(), user2);
+		Avaliacao av6 = new Avaliacao(null, 3, "Precisa melhorar", LocalDate.parse("13/12/2021", formatter).atStartOfDay(), user2);
 		
-		Avaliacao av7 = new Avaliacao(null, 2, "Não ficou muito bom", sdf.parse("05/01/2020"), user3);
-		Avaliacao av8 = new Avaliacao(null, 5, "Excelente desenvolvimento e conclusão", sdf.parse("04/02/2018"), user3);
-		Avaliacao av9 = new Avaliacao(null, 3, "Boa galera, gostei demais!", sdf.parse("01/10/2021"), user3);
+		Avaliacao av7 = new Avaliacao(null, 2, "Não ficou muito bom", LocalDate.parse("05/01/2020", formatter).atStartOfDay(), user3);
+		Avaliacao av8 = new Avaliacao(null, 5, "Excelente desenvolvimento e conclusão", LocalDate.parse("04/02/2018", formatter).atStartOfDay(), user3);
+		Avaliacao av9 = new Avaliacao(null, 3, "Boa galera, gostei demais!", LocalDate.parse("01/10/2021", formatter).atStartOfDay(), user3);
 		
 		adm.addPerfil(PerfilAcesso.ADMIN);
 		user1.addPerfil(PerfilAcesso.USUARIO);

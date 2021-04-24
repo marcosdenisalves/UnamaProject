@@ -1,5 +1,6 @@
 package br.com.unamaproject.server.service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -64,12 +65,12 @@ public class AvaliacaoService {
 
 	public Avaliacao fromNewDTO(AvaliacaoNewDTO objDto) {
 		Usuario usuario = validaUsuarioLogado();
-		return new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), new Date(), usuario);
+		return new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), LocalDateTime.now(), usuario);
 	}
 
 	public Avaliacao fromDTO(AvaliacaoDTO objDto) {
 		Usuario usuario = validaUsuarioLogado();
-		return new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(), new Date(), usuario);
+		return new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(), LocalDateTime.now(), usuario);
 	}
 	
 	private Usuario validaUsuarioLogado() {

@@ -1,7 +1,7 @@
 package br.com.unamaproject.server.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -29,8 +28,7 @@ public class Avaliacao implements Serializable {
 	@Column(columnDefinition = "text")
 	private String comentario;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd.HH.mm.ss", timezone = "America/Sao_Paulo")
-	private Date dataAvaliacao;
+	private LocalDateTime dataAvaliacao;
 
 	@JsonIgnore
 	@JoinColumn(name = "usuario_id")
@@ -40,7 +38,7 @@ public class Avaliacao implements Serializable {
 	public Avaliacao() {
 	}
 
-	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, Date dataAvaliacao, Usuario usuario) {
+	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, LocalDateTime dataAvaliacao, Usuario usuario) {
 		this.id = id;
 		this.qtdEstrelas = qtdEstrelas;
 		this.comentario = comentario;
@@ -72,11 +70,11 @@ public class Avaliacao implements Serializable {
 		this.comentario = comentario;
 	}
 
-	public Date getDataAvaliacao() {
+	public LocalDateTime getDataAvaliacao() {
 		return dataAvaliacao;
 	}
 
-	public void setDataAvaliacao(Date dataAvaliacao) {
+	public void setDataAvaliacao(LocalDateTime dataAvaliacao) {
 		this.dataAvaliacao = dataAvaliacao;
 	}
 
