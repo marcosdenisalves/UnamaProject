@@ -30,20 +30,26 @@ public class Avaliacao implements Serializable {
 	
 	private LocalDateTime dataAvaliacao;
 
-	@JsonIgnore
 	@JoinColumn(name = "usuario_id")
 	@ManyToOne (cascade = CascadeType.ALL)
 	private Usuario usuario;
-
+	
+	@JsonIgnore
+	@ManyToOne (cascade = CascadeType.ALL)
+	@JoinColumn(name = "laboratorio_id")
+	private Laboratorio laboratorio;
+	
 	public Avaliacao() {
 	}
 
-	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario, LocalDateTime dataAvaliacao, Usuario usuario) {
+	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario,
+			LocalDateTime dataAvaliacao, Usuario usuario, Laboratorio laboratorio) {
 		this.id = id;
 		this.qtdEstrelas = qtdEstrelas;
 		this.comentario = comentario;
 		this.dataAvaliacao = dataAvaliacao;
 		this.usuario = usuario;
+		this.laboratorio = laboratorio;
 	}
 
 	public Integer getId() {
@@ -84,6 +90,14 @@ public class Avaliacao implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Laboratorio getLaboratorio() {
+		return laboratorio;
+	}
+
+	public void setLaboratorio(Laboratorio laboratorio) {
+		this.laboratorio = laboratorio;
 	}
 
 	@Override
