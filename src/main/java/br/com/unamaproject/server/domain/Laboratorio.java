@@ -1,12 +1,16 @@
 package br.com.unamaproject.server.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -26,6 +30,9 @@ public class Laboratorio implements Serializable {
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
+	@OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL)
+	private List<Avaliacao> avaliacoes = new ArrayList<>();
+
 	public Laboratorio() {
 	}
 
@@ -59,6 +66,14 @@ public class Laboratorio implements Serializable {
 		this.descricao = descricao;
 	}
 
+	public List<Avaliacao> getAvaliacoes() {
+		return avaliacoes;
+	}
+	
+	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+		this.avaliacoes = avaliacoes;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,4 +98,5 @@ public class Laboratorio implements Serializable {
 			return false;
 		return true;
 	}
+
 }
