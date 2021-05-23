@@ -37,9 +37,11 @@ public class Usuario implements Serializable{
 	@JsonIgnore
 	private String senha;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Avaliacao> avaliacoes = new ArrayList<>();
 
+	@JsonIgnore
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
