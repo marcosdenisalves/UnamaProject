@@ -14,13 +14,17 @@ public class AvaliacaoNewDTO implements Serializable {
 	@Max(value = 5, message = "Valor maximo é de 5 estrelas")
 	private Integer qtdEstrelas;
 	private String comentario;
+	
+	@NotNull
+	private Integer idLaboratorio;
 
 	public AvaliacaoNewDTO() {
 	}
 
-	public AvaliacaoNewDTO( Integer qtdEstrelas, String comentario) {
+	public AvaliacaoNewDTO( Integer qtdEstrelas, String comentario, Integer idLaboratorio) {
 		this.qtdEstrelas = qtdEstrelas;
 		this.comentario = comentario;
+		this.idLaboratorio = idLaboratorio;
 	}
 
 	public Integer getQtdEstrelas() {
@@ -37,5 +41,13 @@ public class AvaliacaoNewDTO implements Serializable {
 
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
+	}
+	
+	public Integer getIdLaboratorio() {
+		return idLaboratorio;
+	}
+
+	public void setIdLaboratorio(Integer idLaboratorio) {
+		this.idLaboratorio = idLaboratorio;
 	}
 }
