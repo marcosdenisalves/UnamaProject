@@ -1,7 +1,6 @@
 package br.com.unamaproject.server.service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.unamaproject.server.domain.Avaliacao;
+import br.com.unamaproject.server.domain.Laboratorio;
 import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.dto.AvaliacaoDTO;
 import br.com.unamaproject.server.dto.AvaliacaoNewDTO;
@@ -28,6 +28,9 @@ public class AvaliacaoService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	private LaboratorioService laboratorioService;
 	
 	public Avaliacao findById(Integer id) {
 		Optional<Avaliacao> obj = repository.findById(id);
@@ -65,12 +68,14 @@ public class AvaliacaoService {
 
 	public Avaliacao fromNewDTO(AvaliacaoNewDTO objDto) {
 		Usuario usuario = validaUsuarioLogado();
-		return new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), LocalDateTime.now(), usuario);
+		Laboratorio laboratorio = laboratorioService.findById(objDto.getIdLaboratorio());
+		return new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), LocalDateTime.now(), usuario, laboratorio);
 	}
 
 	public Avaliacao fromDTO(AvaliacaoDTO objDto) {
 		Usuario usuario = validaUsuarioLogado();
-		return new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(), LocalDateTime.now(), usuario);
+		return new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(),
+				LocalDateTime.now(), usuario, findById(objDto.getId()).getLaboratorio());
 	}
 	
 	private Usuario validaUsuarioLogado() {
