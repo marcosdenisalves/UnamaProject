@@ -51,8 +51,8 @@ public class AvaliacaoResource {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ApiOperation(value = "Atualiza uma avaliação passando o seu id e os campos desejado no body. {Exemplo: avaliacoes/id}")
 	public ResponseEntity<Void> update(@Valid @RequestBody AvaliacaoDTO objDto, @PathVariable Integer id) {
+		objDto.setId(id);
 		Avaliacao obj = service.fromDTO(objDto);
-		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
