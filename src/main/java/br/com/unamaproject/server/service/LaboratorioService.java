@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.unamaproject.server.domain.Laboratorio;
+import br.com.unamaproject.server.dto.LaboratorioDTO;
+import br.com.unamaproject.server.dto.LaboratorioNewDTO;
 import br.com.unamaproject.server.repositories.LaboratorioRepository;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
 
@@ -27,8 +29,8 @@ public class LaboratorioService {
 	}
 
 	@Transactional
-	public Laboratorio insert(Laboratorio obj) {
-		obj.setId(null);
+	public Laboratorio insert(LaboratorioNewDTO objDto) {
+		Laboratorio obj = fromNewDTO(objDto);
 		return repository.save(obj);
 	}
 
@@ -49,4 +51,13 @@ public class LaboratorioService {
 	public Page<Laboratorio> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage,Direction.valueOf(direction), orderBy);
 		return repository.findAll(pageRequest);
-	}} 
+	}
+	
+	private Laboratorio fromNewDTO(LaboratorioNewDTO objDto) {
+		return new Laboratorio(null, objDto.getNome(), objDto.getImgUrl(), objDto.getDescricao());
+	}
+
+	public Laboratorio fromDTO(LaboratorioDTO objDto) {
+		return new Laboratorio(objDto.getId(), objDto.getNome(), objDto.getImgUrl(), objDto.getDescricao());
+	}
+} 
