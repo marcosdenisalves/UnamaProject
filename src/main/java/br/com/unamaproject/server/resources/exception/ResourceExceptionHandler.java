@@ -13,6 +13,7 @@ import br.com.unamaproject.server.service.exceptions.AuthorizationException;
 import br.com.unamaproject.server.service.exceptions.DataIntegrityException;
 import br.com.unamaproject.server.service.exceptions.InvalidFormatException;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
+import br.com.unamaproject.server.service.exceptions.OperationNotAllowedException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -24,6 +25,14 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), "Not Found", e.getMessage(), request.getRequestURI()); 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
+	
+	@ExceptionHandler(OperationNotAllowedException.class)
+	public ResponseEntity<StandardError> operationNotAllowedNotFound(
+			OperationNotAllowedException e, HttpServletRequest request) {
+		
+		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.METHOD_NOT_ALLOWED.value(), "Method Not Allowed", e.getMessage(), request.getRequestURI()); 
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(err);
+	}	
  	
 	@ExceptionHandler(DataIntegrityException.class)
 	public ResponseEntity<StandardError> dataIntegrity(
