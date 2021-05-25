@@ -16,9 +16,11 @@ import br.com.unamaproject.server.domain.Laboratorio;
 import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.dto.AvaliacaoDTO;
 import br.com.unamaproject.server.dto.AvaliacaoNewDTO;
+import br.com.unamaproject.server.enums.PerfilAcesso;
 import br.com.unamaproject.server.repositories.AvaliacaoRepository;
 import br.com.unamaproject.server.security.UserSS;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
+import br.com.unamaproject.server.service.exceptions.OperationNotAllowedException;
 
 @Service
 public class AvaliacaoService {
@@ -38,21 +40,19 @@ public class AvaliacaoService {
 				 "Objeto não encontrado! Id: " + id + ", Tipo: " + Avaliacao.class.getName()));
 	}
 
-
 	@Transactional
 	public Avaliacao insert(AvaliacaoNewDTO objDto) {
-		Avaliacao obj = fromNewDTO(objDto);
+		Avaliacao obj = validaAvaliacoesDoUsuario(fromNewDTO(objDto));
+		generateAvg(obj);
 		return repository.save(obj);
 	}
 
 	public Avaliacao update(Avaliacao obj) {
-		validaUsuarioLogado();
-		findById(obj.getId());
+		generateAvg(obj);
 		return repository.save(obj);
 	}
 
 	public void delete(Integer id) {
-		validaUsuarioLogado();
 		findById(id);
 		repository.deleteById(id);
 	}
@@ -67,19 +67,52 @@ public class AvaliacaoService {
 	}
 
 	public Avaliacao fromNewDTO(AvaliacaoNewDTO objDto) {
-		Usuario usuario = validaUsuarioLogado();
+		Usuario usuario = userValidates();
 		Laboratorio laboratorio = laboratorioService.findById(objDto.getIdLaboratorio());
 		return new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), LocalDateTime.now(), usuario, laboratorio);
 	}
 
 	public Avaliacao fromDTO(AvaliacaoDTO objDto) {
-		Usuario usuario = validaUsuarioLogado();
+		Usuario usuario = userValidates();
+		if (usuario.getPerfis().contains(PerfilAcesso.ADMIN)) {
+			usuario = findById(objDto.getId()).getUsuario();
+		}
 		return new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(),
 				LocalDateTime.now(), usuario, findById(objDto.getId()).getLaboratorio());
 	}
 	
-	private Usuario validaUsuarioLogado() {
+	private Usuario userValidates() {
 		UserSS user = UserService.authenticated();
 		return usuarioService.findById(user.getId());
 	}
+
+	public void generateAvg(Avaliacao avaliacao) {
+		Laboratorio laboratorio = avaliacao.getLaboratorio();
+		laboratorio.getAvaliacoes().forEach((x) -> {
+			if (x.getId() == avaliacao.getId())
+				x.setQtdEstrelas(avaliacao.getQtdEstrelas());
+		});
+		
+		int length = laboratorio.getAvaliacoes().size();
+		int sum = laboratorio.getAvaliacoes().stream().reduce(0,
+				(acc, x) -> acc + x.getQtdEstrelas(), Integer::sum);
+		
+		if (avaliacao.getId() == null) {
+			sum += avaliacao.getQtdEstrelas();
+			length += 1;
+		}
+		
+		laboratorio.setAvgAvaliacoes((double) sum / length);
+	}
+
+	private Avaliacao validaAvaliacoesDoUsuario(Avaliacao obj) {
+		Laboratorio laboratorio = laboratorioService.findById(obj.getLaboratorio().getId());
+		for (Avaliacao avaliacao : laboratorio.getAvaliacoes()) {
+			if (avaliacao.getUsuario().getId() == UserService.authenticated().getId()) {
+				throw new OperationNotAllowedException("Já existe comentários deste usuário neste laboratório");
+			}
+		}
+		return obj;
+	}
 } 
+
