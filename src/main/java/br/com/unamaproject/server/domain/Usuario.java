@@ -41,7 +41,6 @@ public class Usuario implements Serializable{
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Avaliacao> avaliacoes = new ArrayList<>();
 
-	@JsonIgnore
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
