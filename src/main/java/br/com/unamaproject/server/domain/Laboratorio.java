@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "laboratorio")
@@ -22,11 +21,10 @@ public class Laboratorio implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@NotEmpty
 	private String nome;
-	
-	@NotEmpty
+	private String imgUrl;
+	private Double avgAvaliacoes = 0.0;
+
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
@@ -36,9 +34,10 @@ public class Laboratorio implements Serializable {
 	public Laboratorio() {
 	}
 
-	public Laboratorio(Integer id, String nome, String descricao) {
+	public Laboratorio(Integer id, String nome, String imgUrl, String descricao) {
 		this.id = id;
 		this.nome = nome;
+		this.imgUrl = imgUrl;
 		this.descricao = descricao;
 	}
 
@@ -58,6 +57,22 @@ public class Laboratorio implements Serializable {
 		this.nome = nome;
 	}
 
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public Double getAvgAvaliacoes() {
+		return avgAvaliacoes;
+	}
+
+	public void setAvgAvaliacoes(Double avgAvaliacoes) {
+		this.avgAvaliacoes = avgAvaliacoes;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}
@@ -69,11 +84,11 @@ public class Laboratorio implements Serializable {
 	public List<Avaliacao> getAvaliacoes() {
 		return avaliacoes;
 	}
-	
+
 	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 		this.avaliacoes = avaliacoes;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -98,5 +113,4 @@ public class Laboratorio implements Serializable {
 			return false;
 		return true;
 	}
-
 }
