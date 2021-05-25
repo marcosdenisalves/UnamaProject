@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.unamaproject.server.domain.Laboratorio;
+import br.com.unamaproject.server.dto.LaboratorioDTO;
+import br.com.unamaproject.server.dto.LaboratorioNewDTO;
 import br.com.unamaproject.server.service.LaboratorioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,8 +40,8 @@ public class LaboratorioResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ApiOperation(value = "Inseri um laboratorios passando suas informações no body")
-	public ResponseEntity<Void> insert(@Valid @RequestBody Laboratorio obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@Valid @RequestBody LaboratorioNewDTO objDto) {
+		Laboratorio obj = service.insert(objDto);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
@@ -48,8 +50,8 @@ public class LaboratorioResource {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ApiOperation(value = "Atualiza um laboratorios passando o seu id e os campos desejado no body. {Exemplo: laboratorios/id}")
-	public ResponseEntity<Void> update(@Valid @RequestBody Laboratorio obj, @PathVariable Integer id) {
-		obj.setId(id);
+	public ResponseEntity<Void> update(@Valid @RequestBody LaboratorioDTO objDto, @PathVariable Integer id) {
+		Laboratorio obj = service.fromDTO(objDto);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
