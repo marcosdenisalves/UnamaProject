@@ -30,12 +30,12 @@ public class Avaliacao implements Serializable {
 	
 	private LocalDateTime dataAvaliacao;
 
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "usuario_id")
-	@ManyToOne (cascade = CascadeType.ALL)
 	private Usuario usuario;
 	
 	@JsonIgnore
-	@ManyToOne (cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "laboratorio_id")
 	private Laboratorio laboratorio;
 	
