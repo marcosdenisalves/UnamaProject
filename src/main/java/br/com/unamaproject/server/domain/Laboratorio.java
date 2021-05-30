@@ -1,16 +1,14 @@
 package br.com.unamaproject.server.domain;
 
 import java.io.Serializable;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -29,11 +27,8 @@ public class Laboratorio implements Serializable {
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
-	@ManyToMany
-	@JoinTable(name = "laboratorio_avaliacao",
-			joinColumns = @JoinColumn(name = "laboratorio_id"),
-			inverseJoinColumns = @JoinColumn(name = "avaliacao_id"))
-	private Set<Avaliacao> avaliacoes = new LinkedHashSet<>();
+	@ManyToMany(mappedBy = "laboratorios")
+	private List<Avaliacao> avaliacoes = new ArrayList<>();
 
 	public Laboratorio() {
 	}
@@ -85,11 +80,11 @@ public class Laboratorio implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Set<Avaliacao> getAvaliacoes() {
+	public List<Avaliacao> getAvaliacoes() {
 		return avaliacoes;
 	}
 
-	public void setAvaliacoes(Set<Avaliacao> avaliacoes) {
+	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 		this.avaliacoes = avaliacoes;
 	}
 
