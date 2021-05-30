@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.unamaproject.server.domain.Avaliacao;
 import br.com.unamaproject.server.domain.Laboratorio;
 import br.com.unamaproject.server.dto.LaboratorioDTO;
 import br.com.unamaproject.server.dto.LaboratorioNewDTO;
@@ -24,8 +25,10 @@ public class LaboratorioService {
 	
 	public Laboratorio findById(Integer id) {
 		Optional<Laboratorio> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(
+		Laboratorio lab = obj.orElseThrow(() -> new ObjectNotFoundException(
 				 "Objeto não encontrado! Id: " + id + ", Tipo: " + Laboratorio.class.getName()));
+		calcAvg(lab);
+		return lab;
 	}
 
 	@Transactional
@@ -35,7 +38,6 @@ public class LaboratorioService {
 	}
 
 	public Laboratorio update(Laboratorio obj) {
-		findById(obj.getId());
 		return repository.save(obj);
 	}
 
@@ -45,12 +47,16 @@ public class LaboratorioService {
 	}
 
 	public List<Laboratorio> findAll() {
-		return repository.findAll();
+		List<Laboratorio> list = repository.findAll();
+		generateAvg(list);
+		return list;
 	}
 
 	public Page<Laboratorio> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage,Direction.valueOf(direction), orderBy);
-		return repository.findAll(pageRequest);
+		Page<Laboratorio> pageList = repository.findAll(pageRequest);
+		for (Laboratorio laboratorio : pageList) calcAvg(laboratorio);
+		return pageList;
 	}
 	
 	private Laboratorio fromNewDTO(LaboratorioNewDTO objDto) {
@@ -58,6 +64,24 @@ public class LaboratorioService {
 	}
 
 	public Laboratorio fromDTO(LaboratorioDTO objDto) {
-		return new Laboratorio(objDto.getId(), objDto.getNome(), objDto.getImgUrl(), objDto.getDescricao());
+		Laboratorio updateObj = findById(objDto.getId());
+		updateObj.setNome(objDto.getNome());
+		updateObj.setImgUrl(objDto.getImgUrl());
+		updateObj.setDescricao(objDto.getDescricao());
+		return updateObj;
+	}
+	
+	private void generateAvg(List<Laboratorio> list) {
+		for (Laboratorio laboratorio : list) {
+			calcAvg(laboratorio);
+		}
+	}
+	
+	private void calcAvg(Laboratorio obj) {
+		int sum = obj.getAvaliacoes().isEmpty() ? 1 : 0;
+		for (Avaliacao av : obj.getAvaliacoes()) {
+			sum += av.getQtdEstrelas();
+		}
+		obj.setAvgAvaliacoes((double) sum / obj.getAvaliacoes().size());
 	}
 } 
