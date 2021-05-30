@@ -1,16 +1,17 @@
 package br.com.unamaproject.server.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,13 +24,16 @@ public class Laboratorio implements Serializable {
 	private Integer id;
 	private String nome;
 	private String imgUrl;
-	private Double avgAvaliacoes = 0.0;
+	private Double avgAvaliacoes;
 
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
-	@OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL)
-	private List<Avaliacao> avaliacoes = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "laboratorio_avaliacao",
+			joinColumns = @JoinColumn(name = "laboratorio_id"),
+			inverseJoinColumns = @JoinColumn(name = "avaliacao_id"))
+	private Set<Avaliacao> avaliacoes = new LinkedHashSet<>();
 
 	public Laboratorio() {
 	}
@@ -81,11 +85,11 @@ public class Laboratorio implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public List<Avaliacao> getAvaliacoes() {
+	public Set<Avaliacao> getAvaliacoes() {
 		return avaliacoes;
 	}
 
-	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+	public void setAvaliacoes(Set<Avaliacao> avaliacoes) {
 		this.avaliacoes = avaliacoes;
 	}
 
