@@ -17,10 +17,6 @@ public class UsuarioNewDTO implements Serializable {
 	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
 
-	@Length(min = 5, max = 200, message = "O tamanho deve ser entre 5 e 200 caracteres")
-	@NotEmpty(message = "Preenchimento obrigatório")
-	private String sobrenome;
-
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Email(message = "Email inválido")
 	private String email;
@@ -31,9 +27,8 @@ public class UsuarioNewDTO implements Serializable {
 	public UsuarioNewDTO() {
 	}
 
-	public UsuarioNewDTO(String nome, String sobrenome, String email) {
+	public UsuarioNewDTO(String nome, String email) {
 		this.nome = nome;
-		this.sobrenome = sobrenome;
 		this.email = email;
 	}
 
@@ -43,14 +38,6 @@ public class UsuarioNewDTO implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getSobrenome() {
-		return sobrenome;
-	}
-
-	public void setSobrenome(String sobrenome) {
-		this.sobrenome = sobrenome;
 	}
 
 	public String getEmail() {

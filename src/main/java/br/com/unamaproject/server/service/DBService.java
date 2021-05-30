@@ -37,15 +37,15 @@ public class DBService {
 		Laboratorio lab1 = new Laboratorio(null, "Biblioteca", "img/biblioteca.png","Biblioteca da Unama");
 		Laboratorio lab2 = new Laboratorio(null, "Química", "img/lab-quimica.png", "Laborátorio de Química");
 		Laboratorio lab3 = new Laboratorio(null, "Gastronomia", "img/lab-106.png", "Laborátorio de Gastronomia");
-//		Laboratorio lab4 = new Laboratorio(null, "Engenharia Civil", "img/lab-egn-civil.png", "Laborátorio de Engenharia Civil");
-//		Laboratorio lab5 = new Laboratorio(null, "Moda", "img/lab-moda.png", "Laborátorio de Moda");
-//		Laboratorio lab6 = new Laboratorio(null, "Cam", "img/lacam.png", "Laborátorio de cam");
-//		Laboratorio lab7 = new Laboratorio(null, "102", "img/lab-102.png", "Laborátorio de 102");
+		Laboratorio lab4 = new Laboratorio(null, "Engenharia Civil", "img/lab-egn-civil.png", "Laborátorio de Engenharia Civil");
+		Laboratorio lab5 = new Laboratorio(null, "Moda", "img/lab-moda.png", "Laborátorio de Moda");
+		Laboratorio lab6 = new Laboratorio(null, "Cam", "img/lacam.png", "Laborátorio de cam");
+		Laboratorio lab7 = new Laboratorio(null, "102", "img/lab-102.png", "Laborátorio de 102");
 
-		Usuario user1 = new Usuario(null, "Daywison", "da Silva de Souza", "daywison.silva@gmail.com", encoder.encode("1234"));
-		Usuario user2 = new Usuario(null, "Paulo Roberto", "de Souza Soares", "pauloroberto.souza@yahoo.com.br", encoder.encode("4444"));
-		Usuario user3 = new Usuario(null, "Thiago", "de Oliveira Gomes", "thiagodeoliveira@hotmail.com", encoder.encode("2222"));
-		Usuario adm = new Usuario(null, "Administrador", "Adm", "administrador@adm.com", encoder.encode("adm"));
+		Usuario user1 = new Usuario(null, "Daywison", "daywison.silva@gmail.com", encoder.encode("1234"));
+		Usuario user2 = new Usuario(null, "Paulo Roberto", "pauloroberto.souza@yahoo.com.br", encoder.encode("4444"));
+		Usuario user3 = new Usuario(null, "Thiago", "thiagodeoliveira@hotmail.com", encoder.encode("2222"));
+		Usuario adm = new Usuario(null, "Administrador", "administrador@adm.com", encoder.encode("adm"));
 		
 		Avaliacao av1 = new Avaliacao(null, 2, "Não gostei do conteudo", LocalDate.parse("13/11/2019", formatter).atStartOfDay(), user1);
 		Avaliacao av2 = new Avaliacao(null, 5, "Excelente conteudo", LocalDate.parse("01/05/2015", formatter).atStartOfDay(), user2);
@@ -70,7 +70,7 @@ public class DBService {
 		av2.getLaboratorios().addAll(Arrays.asList(lab1, lab2, lab3));
 		av3.getLaboratorios().addAll(Arrays.asList(lab1, lab2, lab3));
 		
-		laboratorioRepository.saveAll(Arrays.asList(lab1, lab2, lab3));
+		laboratorioRepository.saveAll(Arrays.asList(lab1, lab2, lab3, lab4, lab5, lab6, lab7));
 		usuarioRepository.saveAll(Arrays.asList(adm, user1, user2, user3));
 	}
 }
