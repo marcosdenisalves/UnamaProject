@@ -51,6 +51,7 @@ public class LaboratorioResource {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ApiOperation(value = "Atualiza um laboratorios passando o seu id e os campos desejado no body. {Exemplo: laboratorios/id}")
 	public ResponseEntity<Void> update(@Valid @RequestBody LaboratorioDTO objDto, @PathVariable Integer id) {
+		objDto.setId(id);
 		Laboratorio obj = service.fromDTO(objDto);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
