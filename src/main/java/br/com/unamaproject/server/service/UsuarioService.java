@@ -90,10 +90,10 @@ public class UsuarioService {
 	}
 	
 	public Usuario fromDTO(UsuarioDTO objDto) {
-		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getSobrenome(), objDto.getEmail(), null);
+		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), null);
 	}
 	
 	public Usuario fromNewDTO(UsuarioNewDTO objDto) {
-		return new Usuario(null, objDto.getNome(), objDto.getSobrenome(), objDto.getEmail(), encoder.encode(objDto.getSenha()));
+		return new Usuario(null, objDto.getNome(), objDto.getEmail(), encoder.encode(objDto.getSenha()));
 	}
 } 
