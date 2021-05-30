@@ -2,6 +2,8 @@ package br.com.unamaproject.server.domain;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -35,21 +38,19 @@ public class Avaliacao implements Serializable {
 	private Usuario usuario;
 	
 	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "laboratorio_id")
-	private Laboratorio laboratorio;
+	@ManyToMany(mappedBy = "avaliacoes")
+	private Set<Laboratorio> laboratorios = new LinkedHashSet<>();
 	
 	public Avaliacao() {
 	}
 
 	public Avaliacao(Integer id, Integer qtdEstrelas, String comentario,
-			LocalDateTime dataAvaliacao, Usuario usuario, Laboratorio laboratorio) {
+			LocalDateTime dataAvaliacao, Usuario usuario) {
 		this.id = id;
 		this.qtdEstrelas = qtdEstrelas;
 		this.comentario = comentario;
 		this.dataAvaliacao = dataAvaliacao;
 		this.usuario = usuario;
-		this.laboratorio = laboratorio;
 	}
 
 	public Integer getId() {
@@ -92,12 +93,12 @@ public class Avaliacao implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public Laboratorio getLaboratorio() {
-		return laboratorio;
+	public Set<Laboratorio> getLaboratorios() {
+		return laboratorios;
 	}
 
-	public void setLaboratorio(Laboratorio laboratorio) {
-		this.laboratorio = laboratorio;
+	public void setLaboratorios(Set<Laboratorio> laboratorios) {
+		this.laboratorios = laboratorios;
 	}
 
 	@Override
