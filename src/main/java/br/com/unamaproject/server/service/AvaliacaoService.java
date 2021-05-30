@@ -42,13 +42,12 @@ public class AvaliacaoService {
 
 	@Transactional
 	public Avaliacao insert(AvaliacaoNewDTO objDto) {
-		Avaliacao obj = validaAvaliacoesDoUsuario(fromNewDTO(objDto));
-		generateAvg(obj);
+		Avaliacao obj = fromNewDTO(objDto);
+		validaAvaliacoesDoUsuario(obj);
 		return repository.save(obj);
 	}
 
 	public Avaliacao update(Avaliacao obj) {
-		generateAvg(obj);
 		return repository.save(obj);
 	}
 
@@ -68,17 +67,21 @@ public class AvaliacaoService {
 
 	public Avaliacao fromNewDTO(AvaliacaoNewDTO objDto) {
 		Usuario usuario = userValidates();
+		Avaliacao avaliacao = new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), LocalDateTime.now(), usuario);
 		Laboratorio laboratorio = laboratorioService.findById(objDto.getIdLaboratorio());
-		return new Avaliacao(null, objDto.getQtdEstrelas(), objDto.getComentario(), LocalDateTime.now(), usuario, laboratorio);
+		laboratorio.getAvaliacoes().add(avaliacao);
+		avaliacao.getLaboratorios().add(laboratorio);
+		return avaliacao;
 	}
 
 	public Avaliacao fromDTO(AvaliacaoDTO objDto) {
+		Avaliacao obj = findById(objDto.getId());
 		Usuario usuario = userValidates();
 		if (usuario.getPerfis().contains(PerfilAcesso.ADMIN)) {
-			usuario = findById(objDto.getId()).getUsuario();
+			usuario = obj.getUsuario();
 		}
-		return new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(),
-				LocalDateTime.now(), usuario, findById(objDto.getId()).getLaboratorio());
+		Avaliacao avaliacao = new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(),LocalDateTime.now(), usuario);
+		return avaliacao;
 	}
 	
 	private Usuario userValidates() {
@@ -86,33 +89,14 @@ public class AvaliacaoService {
 		return usuarioService.findById(user.getId());
 	}
 
-	public void generateAvg(Avaliacao avaliacao) {
-		Laboratorio laboratorio = avaliacao.getLaboratorio();
-		laboratorio.getAvaliacoes().forEach((x) -> {
-			if (x.getId() == avaliacao.getId())
-				x.setQtdEstrelas(avaliacao.getQtdEstrelas());
-		});
-		
-		int length = laboratorio.getAvaliacoes().size();
-		int sum = laboratorio.getAvaliacoes().stream().reduce(0,
-				(acc, x) -> acc + x.getQtdEstrelas(), Integer::sum);
-		
-		if (avaliacao.getId() == null) {
-			sum += avaliacao.getQtdEstrelas();
-			length += 1;
-		}
-		
-		laboratorio.setAvgAvaliacoes((double) sum / length);
-	}
-
-	private Avaliacao validaAvaliacoesDoUsuario(Avaliacao obj) {
-		Laboratorio laboratorio = laboratorioService.findById(obj.getLaboratorio().getId());
-		for (Avaliacao avaliacao : laboratorio.getAvaliacoes()) {
-			if (avaliacao.getUsuario().getId() == UserService.authenticated().getId()) {
-				throw new OperationNotAllowedException("Já existe comentários deste usuário neste laboratório");
+	private void validaAvaliacoesDoUsuario(Avaliacao avaliacao) {
+		for (Laboratorio laboratorio : avaliacao.getLaboratorios()) {
+			for (Avaliacao av : laboratorio.getAvaliacoes()) {
+				if (av.getId() != null && av.getUsuario().getId() == UserService.authenticated().getId()) {
+					throw new OperationNotAllowedException("Não foi possível adicionar a sua avaliação, apenas uma por laborátorio");
+				}
 			}
 		}
-		return obj;
 	}
 } 
 
