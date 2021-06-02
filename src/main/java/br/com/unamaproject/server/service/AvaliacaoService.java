@@ -16,7 +16,6 @@ import br.com.unamaproject.server.domain.Laboratorio;
 import br.com.unamaproject.server.domain.Usuario;
 import br.com.unamaproject.server.dto.AvaliacaoDTO;
 import br.com.unamaproject.server.dto.AvaliacaoNewDTO;
-import br.com.unamaproject.server.enums.PerfilAcesso;
 import br.com.unamaproject.server.repositories.AvaliacaoRepository;
 import br.com.unamaproject.server.security.UserSS;
 import br.com.unamaproject.server.service.exceptions.ObjectNotFoundException;
@@ -75,12 +74,10 @@ public class AvaliacaoService {
 	}
 
 	public Avaliacao fromDTO(AvaliacaoDTO objDto) {
-		Avaliacao obj = findById(objDto.getId());
-		Usuario usuario = userValidates();
-		if (usuario.getPerfis().contains(PerfilAcesso.ADMIN)) {
-			usuario = obj.getUsuario();
-		}
-		Avaliacao avaliacao = new Avaliacao(objDto.getId(), objDto.getQtdEstrelas(), objDto.getComentario(),LocalDateTime.now(), usuario);
+		Avaliacao avaliacao = findById(objDto.getId());
+		avaliacao.setQtdEstrelas(objDto.getQtdEstrelas());
+		avaliacao.setComentario(objDto.getComentario());
+		avaliacao.setDataAvaliacao(LocalDateTime.now());
 		return avaliacao;
 	}
 	
